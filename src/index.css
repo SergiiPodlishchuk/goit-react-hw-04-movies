@@ -1,0 +1,48 @@
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.Navigation {
+  color: #000000;
+  font-size: 25px;
+  font-weight: 700;
+  border-bottom: 2px solid #212121;
+  display: flex;
+  list-style: none;
+
+  padding-bottom: 30px;
+}
+
+.Navigation-link {
+  text-decoration: none;
+  padding-left: 20px;
+}
+
+.Navigation-link-active {
+  color: rgb(255, 217, 0);
+}
+
+.popularFilmList {
+  list-style-type: square;
+}
+
+.MovieDetails {
+
+  display: flex;
+  border-bottom: 2px solid #212121;
+
+}
+
+.MovieDetailsAbout {
+  padding-left: 50px;
+}
+
+.photoActor {
+  width: 200px;
+}
+
+.addInformation {
+  border-bottom: 2px solid #212121;
+}
