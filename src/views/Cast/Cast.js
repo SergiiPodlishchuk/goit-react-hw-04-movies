@@ -5,9 +5,10 @@ export default class fetchActorsList extends Component {
   state = { filmActors: [] };
 
   componentDidMount() {
-    API_themoviedb.fetchFilmActors(
-      this.props.match.params.movieId
-    ).then((res) => this.setState({ filmActors: res.cast }));
+    const { movieId } = this.props.match.params;
+    API_themoviedb.fetchFilmActors(movieId).then(({ cast }) =>
+      this.setState({ filmActors: cast })
+    );
   }
 
   render() {
@@ -16,15 +17,15 @@ export default class fetchActorsList extends Component {
     return (
       <>
         <ul>
-          {filmActors.map((actor) => (
-            <li key={actor.id}>
+          {filmActors.map(({ id, profile_path, name, character }) => (
+            <li key={id}>
               <img
                 className="photoActor"
-                src={`http://image.tmdb.org/t/p/w500${actor.profile_path}`}
+                src={`http://image.tmdb.org/t/p/w500${profile_path}`}
                 alt=""
               />
-              <p>{actor.name}</p>
-              <p>{actor.character}</p>
+              <p>{name}</p>
+              <p>{character}</p>
             </li>
           ))}
         </ul>

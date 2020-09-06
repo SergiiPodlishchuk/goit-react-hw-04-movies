@@ -34,8 +34,8 @@ export default class MoviesPage extends Component {
   }
 
   fetchFilms = (query) => {
-    this.setState({ loading: true });
-    this.setState({ value: query });
+    this.setState({ loading: true, value: query });
+
     API_themoviedb.fetchFilmWithQuery(query)
       .then((res) => this.setState({ filmsSearch: res.results }))
       .catch((error) => this.setState({ error }))
@@ -53,8 +53,8 @@ export default class MoviesPage extends Component {
 
   render() {
     const { filmsSearch, loading, error, value } = this.state;
-    const { match } = this.props;
-    console.log(filmsSearch);
+    const { match, location } = this.props;
+
     return (
       <>
         <SearchBox onSubmit={this.handleChangeQuery} />
@@ -71,15 +71,15 @@ export default class MoviesPage extends Component {
         {filmsSearch.length === 0 && value && <p>Not found</p>}
         {filmsSearch && (
           <ul className="popularFilmList">
-            {filmsSearch.map((film) => (
-              <li key={film.id}>
+            {filmsSearch.map(({ id, original_title }) => (
+              <li key={id}>
                 <Link
                   to={{
-                    pathname: `${match.url}/${film.id}`,
-                    state: { from: this.props.location },
+                    pathname: `${match.url}/${id}`,
+                    state: { from: location },
                   }}
                 >
-                  {film.original_title}
+                  {original_title}
                 </Link>
               </li>
             ))}

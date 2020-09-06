@@ -2,12 +2,14 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import routes from "../routes";
 
+const { homePage, moviesPage } = routes;
+
 const Navigation = () => (
   <ul className="Navigation">
     <li>
       <NavLink
         exact
-        to={routes.homePage}
+        to={homePage}
         className="Navigation-link"
         activeClassName="Navigation-link-active"
       >
@@ -16,7 +18,7 @@ const Navigation = () => (
     </li>
     <li>
       <NavLink
-        to={routes.moviesPage}
+        to={moviesPage}
         className="Navigation-link"
         activeClassName="Navigation-link-active"
       >

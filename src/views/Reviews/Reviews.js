@@ -5,9 +5,10 @@ export default class fetchActorsList extends Component {
   state = { review: [] };
 
   componentDidMount() {
-    API_themoviedb.fetchFilmReviews(
-      this.props.match.params.movieId
-    ).then((res) => this.setState({ review: res.results }));
+    const { movieId } = this.props.match.params;
+    API_themoviedb.fetchFilmReviews(movieId).then(({ results }) =>
+      this.setState({ review: results })
+    );
   }
 
   render() {
@@ -17,10 +18,10 @@ export default class fetchActorsList extends Component {
         {review.length === 0 && <p>We don't have any reviews for this movie</p>}
         {review.length > 0 && (
           <ul>
-            {review.map((review) => (
-              <li key={review.id}>
-                <h2>{review.author}</h2>
-                <p>{review.content}</p>
+            {review.map(({ id, author, content }) => (
+              <li key={id}>
+                <h2>{author}</h2>
+                <p>{content}</p>
               </li>
             ))}
           </ul>

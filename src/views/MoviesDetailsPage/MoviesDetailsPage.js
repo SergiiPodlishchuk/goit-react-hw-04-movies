@@ -12,17 +12,16 @@ export default class MoviesDetailsPage extends Component {
   };
 
   componentDidMount() {
-    API_themoviedb.fetchFilmDetails(
-      this.props.match.params.movieId
-    ).then((aboutFilm) => this.setState({ aboutFilm }));
+    const { movieId } = this.props.match.params;
+    API_themoviedb.fetchFilmDetails(movieId).then((aboutFilm) =>
+      this.setState({ aboutFilm })
+    );
   }
 
   handleGoBack = () => {
-    console.log("back");
     const { state } = this.props.location;
 
     if (state && state.from) {
-      console.log(state.from);
       return this.props.history.push(state.from);
     }
     this.props.history.push(routes.moviesPage);
@@ -30,9 +29,8 @@ export default class MoviesDetailsPage extends Component {
 
   render() {
     const { aboutFilm } = this.state;
-    console.log(aboutFilm);
-    const { match } = this.props;
-
+    const { match, location } = this.props;
+    const { cast, reviews } = routes;
     return (
       <>
         <button onClick={this.handleGoBack}> &#8656; Go back</button>
@@ -54,8 +52,8 @@ export default class MoviesDetailsPage extends Component {
               <p>{aboutFilm.overview}</p>
               <h2>Genres</h2>
               <ul>
-                {aboutFilm.genres.map((genres) => (
-                  <li key={genres.id}>{genres.name}</li>
+                {aboutFilm.genres.map(({ id, name }) => (
+                  <li key={id}>{name}</li>
                 ))}
               </ul>
             </div>
@@ -65,16 +63,28 @@ export default class MoviesDetailsPage extends Component {
           <h2>Additional information</h2>
           <ul className="addInformation">
             <li>
-              <Link to={`/movies/${match.params.movieId}/cast`}>Cast</Link>
+              <Link
+                to={{
+                  pathname: `/movies/${match.params.movieId}/cast`,
+                  state: { from: location },
+                }}
+              >
+                Cast
+              </Link>
             </li>
             <li>
-              <Link to={`/movies/${match.params.movieId}/reviews`}>
+              <Link
+                to={{
+                  pathname: `/movies/${match.params.movieId}/reviews`,
+                  state: { from: location },
+                }}
+              >
                 Reviews
               </Link>
             </li>
           </ul>
-          <Route path={routes.cast} component={Cast} />
-          <Route path={routes.reviews} component={Reviews} />
+          <Route path={cast} component={Cast} />
+          <Route path={reviews} component={Reviews} />
         </div>
       </>
     );
