@@ -1,50 +1,84 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 import API_themoviedb from "../../services/API_themovidb";
+import SearchBox from "../../components/SearchBox";
+import getQueryParams from "../../utils/getQueryParams";
+import Error from "../../components/PageError";
 
 export default class MoviesPage extends Component {
   state = {
-    searchQuery: "",
+    error: null,
+    loading: false,
     filmsSearch: [],
+    value: "",
   };
 
-  fetch() {
-    API_themoviedb.fetchFilmWithQuery(this.state.searchQuery).then((res) =>
-      this.setState({ filmsSearch: res.results })
-    );
+  componentDidMount() {
+    const { query } = getQueryParams(this.props.location.search);
+    if (query) {
+      this.fetchFilms(query);
+    }
   }
 
-  handleChange = ({ target }) => {
-    this.setState({ searchQuery: target.value });
+  componentDidUpdate(prevProps, prevState) {
+    const { query: prevQuery } = getQueryParams(prevProps.location.search);
+    const { query: nextQuery } = getQueryParams(this.props.location.search);
+
+    if (prevQuery !== nextQuery) {
+      this.fetchFilms(nextQuery);
+    }
+  }
+
+  fetchFilms = (query) => {
+    this.setState({ loading: true });
+    this.setState({ value: query });
+    API_themoviedb.fetchFilmWithQuery(query)
+      .then((res) => this.setState({ filmsSearch: res.results }))
+      .catch((error) => this.setState({ error }))
+      .finally(() => {
+        this.setState({ loading: false });
+      });
   };
 
-  handleSubmit = (e) => {
-    const { searchQuery } = this.state;
-    e.preventDefault();
-    this.fetch(searchQuery);
-    this.setState({ searchQuery: "" });
+  handleChangeQuery = (query) => {
+    this.props.history.push({
+      ...this.props.location,
+      search: `query=${query}`,
+    });
   };
 
   render() {
-    const { searchQuery, filmsSearch } = this.state;
+    const { filmsSearch, loading, error, value } = this.state;
     const { match } = this.props;
+    console.log(filmsSearch);
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Enter film"
-            value={searchQuery}
-            onChange={this.handleChange}
+        <SearchBox onSubmit={this.handleChangeQuery} />
+        {loading && (
+          <Loader
+            type="ThreeDots"
+            color="#f5f505"
+            height={50}
+            width={100}
+            timeout={3000} //3 secs
           />
-          <button type="submit">Search</button>
-        </form>
-
+        )}
+        {error && <Error message={`Whoops ${error.message}`} />}
+        {filmsSearch.length === 0 && value && <p>Not found</p>}
         {filmsSearch && (
           <ul className="popularFilmList">
             {filmsSearch.map((film) => (
               <li key={film.id}>
-                <Link to={`${match.url}/${film.id}`}>
+                <Link
+                  to={{
+                    pathname: `${match.url}/${film.id}`,
+                    state: { from: this.props.location },
+                  }}
+                >
                   {film.original_title}
                 </Link>
               </li>

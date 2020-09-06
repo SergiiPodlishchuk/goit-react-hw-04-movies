@@ -12,7 +12,6 @@ export default class fetchActorsList extends Component {
 
   render() {
     const { review } = this.state;
-    console.log(review);
     return (
       <>
         {review.length === 0 && <p>We don't have any reviews for this movie</p>}

@@ -12,7 +12,7 @@ export default class fetchActorsList extends Component {
 
   render() {
     const { filmActors } = this.state;
-    console.log(filmActors);
+
     return (
       <>
         <ul>

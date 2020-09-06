@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 
 import API_themoviedb from "../../services/API_themovidb";
-
 import Cast from "../Cast/Cast";
 import Reviews from "../Reviews/Reviews";
-
 import routes from "../../routes";
 
 export default class MoviesDetailsPage extends Component {
@@ -27,11 +25,12 @@ export default class MoviesDetailsPage extends Component {
       console.log(state.from);
       return this.props.history.push(state.from);
     }
-    this.props.history.push(routes.shows);
+    this.props.history.push(routes.moviesPage);
   };
 
   render() {
     const { aboutFilm } = this.state;
+    console.log(aboutFilm);
     const { match } = this.props;
 
     return (

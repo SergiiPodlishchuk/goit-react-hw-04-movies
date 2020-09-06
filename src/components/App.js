@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import Navigation from "./Navigation";
-
 import HomePage from "../views/HomePage/HomePage";
 import MoviesPage from "../views/MoviesPage/MoviesPage";
 import MoviesDetailsPage from "../views/MoviesDetailsPage/MoviesDetailsPage";
