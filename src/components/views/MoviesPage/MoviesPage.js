@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-import API_themoviedb from "../../services/API_themovidb";
-import SearchBox from "../../components/SearchBox";
-import getQueryParams from "../../utils/getQueryParams";
-import Error from "../../components/PageError";
+import API_themoviedb from "../../../services/API_themovidb";
+import SearchBox from "../../SearchBox";
+import getQueryParams from "../../../utils/getQueryParams";
+import Error from "../../PageError";
+import PopularFilms from "../PopularFilms";
 
 export default class MoviesPage extends Component {
   state = {
@@ -70,20 +70,7 @@ export default class MoviesPage extends Component {
         {error && <Error message={`Whoops ${error.message}`} />}
         {filmsSearch.length === 0 && value && <p>Not found</p>}
         {filmsSearch && (
-          <ul className="popularFilmList">
-            {filmsSearch.map(({ id, original_title }) => (
-              <li key={id}>
-                <Link
-                  to={{
-                    pathname: `${match.url}/${id}`,
-                    state: { from: location },
-                  }}
-                >
-                  {original_title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <PopularFilms films={filmsSearch} location={location} />
         )}
       </>
     );

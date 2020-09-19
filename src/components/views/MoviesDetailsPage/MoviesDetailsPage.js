@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 
-import API_themoviedb from "../../services/API_themovidb";
+import API_themoviedb from "../../../services/API_themovidb";
 import Cast from "../Cast/Cast";
 import Reviews from "../Reviews/Reviews";
-import routes from "../../routes";
+import routes from "../../../routes";
 
 export default class MoviesDetailsPage extends Component {
   state = {

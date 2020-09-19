@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import API_themoviedb from "../../services/API_themovidb";
+import API_themoviedb from "../../../services/API_themovidb";
 
 export default class fetchActorsList extends Component {
   state = { review: [] };

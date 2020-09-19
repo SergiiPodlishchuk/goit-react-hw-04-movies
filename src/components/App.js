@@ -2,22 +2,22 @@ import React, { lazy, Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import "../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import Navigation from "./Navigation";
 import routes from "../routes";
 
 const AsyncHomePage = lazy(() =>
-  import("../views/HomePage/HomePage" /* webpackChunkName: "home-page" */)
+  import("./views/HomePage/HomePage" /* webpackChunkName: "home-page" */)
 );
 
 const AsyncMoviesPage = lazy(() =>
-  import("../views/MoviesPage/MoviesPage" /* webpackChunkName: "Movies-page" */)
+  import("./views/MoviesPage/MoviesPage" /* webpackChunkName: "Movies-page" */)
 );
 
 const AsyncMovieDetails = lazy(() =>
   import(
-    "../views/MoviesDetailsPage/MoviesDetailsPage" /* webpackChunkName: "MoviesDetailsPage-page" */
+    "./views/MoviesDetailsPage/MoviesDetailsPage" /* webpackChunkName: "MoviesDetailsPage-page" */
   )
 );
 
